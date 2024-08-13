@@ -148,7 +148,7 @@ get(items);
 }]
 ```
 
-**Example Data COnverted**
+**Example Data Converted**
 <pre>
 firstname,lastname,band,instrument,living
 George,Harrison,Beatles,guitar,false
@@ -167,4 +167,4 @@ Jimi,Hendrix,The Jimi Hendrix Experience,guitar,false
 Michael,Jackson,Jackson 5,voice,false
 Rogers,Nelson,the Revolution,guitar,false
 Whitney,Houston,none,voice,false
-</pre>>
+</pre>
