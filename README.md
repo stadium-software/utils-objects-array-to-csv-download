@@ -148,7 +148,7 @@ get(items);
 }]
 ```
 
-**Example Data Converted**
+**Converted**
 <pre>
 firstname,lastname,band,instrument,living
 George,Harrison,Beatles,guitar,false
