@@ -48,7 +48,7 @@ get(items);
 1. Drag the "ListToCSVDownload" script into an event handler or script
 2. Assign a List (such as database queries or JSON from an API call) to the "List" input parameter
 
-*Example data*
+**Example data**
 ```json
 [{
 	"firstname": "George",
@@ -147,3 +147,24 @@ get(items);
 	"living": "false"
 }]
 ```
+
+**Example Data COnverted**
+<pre>
+firstname,lastname,band,instrument,living
+George,Harrison,Beatles,guitar,false
+John,Lennon,Beatles,guitar,false
+Paul,McCartney,Beatles,bass,true
+Ringo,Star,Beatles,drums,true
+David,Gilmour,Pink Floyd,guitar,true
+Roger,Waters,Pink Floyd,bass,true
+Syd,Barrett,Pink Floyd,guitar,false
+Bob,Marley,The Wailers,voice,false
+Pete,Townshend,The Who,guitar,true
+Freddie,Mercury,Queen,voice,false
+Brian,May,Queen,guitar,false
+Jim,Morrison,The Doors,voice,false
+Jimi,Hendrix,The Jimi Hendrix Experience,guitar,false
+Michael,Jackson,Jackson 5,voice,false
+Rogers,Nelson,the Revolution,guitar,false
+Whitney,Houston,none,voice,false
+</pre>>
