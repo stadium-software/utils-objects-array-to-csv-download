@@ -155,11 +155,6 @@ get(items, wrap);
 	"band": "the Revolution",
 	"instrument": "guitar",
 	"living": "false"
-},{
-	"firstname": "Whitney",
-	"lastname": "Houston",
-	"instrument": "voice",
-	"living": "false"
 }]
 ```
 
