@@ -10,6 +10,7 @@ Reformats a *List* to CSV and downloads a file with the CSV data to the client m
 1. Create a Global Script called "ListToCSVDownload"
 2. Add the input parameters below to the Global Script
    1. List
+   2. AddDoubleQuotes
 3. Drag a *JavaScript* action into the script
 4. Add the Javascript below into the JavaScript code property
 ```javascript
@@ -22,31 +23,45 @@ const download = (data) => {
     a.download = 'download.csv';
     a.click();
 };
-const csvmaker = (data) => {
-    let rows = [], ret;
-    const headers = Object.keys(data[0]);
-    if (headers[0] == 0) {
+const csvmaker = (data, qt) => {
+    let ret;
+    if (data.length > 0 && typeof data[0] !== "object") {
         ret = Object.values(data).join(',');
-    } else {
+    } else if (data.length > 0) {
+        let rows = [], headers = [];
         for (let i = 0; i < data.length; i++) {
-            let values = Object.values(data[i]);
-            rows.push(values.join(','));
+            headers = headers.concat(Object.keys(data[i]));
         }
+        headers = Array.from(new Set(headers));
+        for (let i = 0; i < data.length; i++) {
+            let ob = headers.reduce((acc, curr) => ((acc[curr] = ""), acc), {});
+            let obj = Object.assign(ob, data[i]);
+            let values = Object.values(obj);
+            if (qt) {
+                rows.push('"' + values.join('","') + '"');
+            } else { 
+                rows.push(values.join(','));
+            }
+        }
+        headers = Array.from(new Set(headers));
         ret = [headers.join(','), rows.join('\n')].join('\n');
     }
     return ret;
 };
-const get = async (data) => {
-    const csvdata = csvmaker(data);
+const get = async (data, wrapper) => {
+    const csvdata = csvmaker(data, wrapper);
     download(csvdata);
 };
 const items = ~.Parameters.Input.List;
-get(items);
+const wrap = ~.Parameters.Input.AddDoubleQuotes;
+get(items, wrap);
 ```
 
 ## Event Handler
 1. Drag the "ListToCSVDownload" script into an event handler or script
-2. Assign a List (such as database queries or JSON from an API call) to the "List" input parameter
+2. Provide values for the script input parameters
+   1. List: Assign a *List* or a JavaScript array (e.g. database query results, JSON, etc.)
+   2. AddDoubleQuotes (optional): Add true to wrap values in double quotes (default is false)
 
 **Example data**
 ```json
