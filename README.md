@@ -176,5 +176,4 @@ Jim,Morrison,The Doors,voice,false
 Jimi,Hendrix,The Jimi Hendrix Experience,guitar,false
 Michael,Jackson,Jackson 5,voice,false
 Rogers,Nelson,the Revolution,guitar,false
-Whitney,Houston,none,voice,false
 </pre>
