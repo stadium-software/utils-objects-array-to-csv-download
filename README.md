@@ -60,7 +60,7 @@ get(items, wrap);
 ## Event Handler
 1. Drag the "ListToCSVDownload" script into an event handler or script
 2. Provide values for the script input parameters
-   1. List: Assign a *List* or a JavaScript array (e.g. database query results, JSON, etc.)
+   1. List: Assign a *List* or a JavaScript array (e.g. Stadium List, database query results, JSON, etc.)
    2. AddDoubleQuotes (optional): Add true to wrap values in double quotes (default is false)
 
 **Example data**
