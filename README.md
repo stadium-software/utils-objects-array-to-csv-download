@@ -6,21 +6,24 @@ Reformats a *List* to CSV and downloads a file with the CSV data to the client m
 
 1.0 Initial
 
+1.1 Added optional script parameter "FileName"
+
 # Global Script Setup
 1. Create a Global Script called "ListToCSVDownload"
 2. Add the input parameters below to the Global Script
    1. List
    2. AddDoubleQuotes
+   3. FileName
 3. Drag a *JavaScript* action into the script
 4. Add the Javascript below into the JavaScript code property
 ```javascript
-/* Stadium Script v1.0 https://github.com/stadium-software/utils-list-to-csv-download */
-const download = (data) => {
+/* Stadium Script v1.1 https://github.com/stadium-software/utils-list-to-csv-download */
+const download = (data, flnm) => {
     const blob = new Blob([data], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'download.csv';
+    a.download = flnm;
     a.click();
 };
 const csvmaker = (data, qt) => {
@@ -48,13 +51,14 @@ const csvmaker = (data, qt) => {
     }
     return ret;
 };
-const get = async (data, wrapper) => {
+const get = async (data, wrapper, fileNm) => {
     const csvdata = csvmaker(data, wrapper);
-    download(csvdata);
+    download(csvdata, fileNm);
 };
 const items = ~.Parameters.Input.List;
-const wrap = ~.Parameters.Input.AddDoubleQuotes;
-get(items, wrap);
+const fileName = ~.Parameters.Input.FileName || 'download.csv';
+const wrap = ~.Parameters.Input.AddDoubleQuotes || false;
+get(items, wrap, fileName);
 ```
 
 ## Event Handler
@@ -62,6 +66,7 @@ get(items, wrap);
 2. Provide values for the script input parameters
    1. List: Assign a *List* or a JavaScript array (e.g. Stadium List, database query results, JSON, etc.)
    2. AddDoubleQuotes (optional): Add true to wrap values in double quotes (default is false)
+   3. FileName (optional): Default filename is 'download.csv'
 
 **Example data**
 ```json
