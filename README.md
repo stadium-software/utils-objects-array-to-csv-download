@@ -2,6 +2,8 @@
 
 Reformats a *List* to CSV and downloads a file with the CSV data to the client machine. 
 
+Please be aware that retreiving large amounts of data from a database or API can cause the browser to hang or crash. Similarily, passing large amounts of data to the script below may also cause the browser to hang or crash. 
+
 ## Version 
 
 1.0 Initial
