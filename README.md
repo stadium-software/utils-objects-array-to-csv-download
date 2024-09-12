@@ -10,65 +10,68 @@ Please be aware that retreiving large amounts of data from a database or API can
 
 1.1 Added optional script parameter "FileName"
 
+1.2 Added optional script parameter "Separator"; changed "AddDoubleQuotes" input to flexible "ValueWrapper" (optional)
+
 # Global Script Setup
 1. Create a Global Script called "ListToCSVDownload"
 2. Add the input parameters below to the Global Script
    1. List
-   2. AddDoubleQuotes
+   2. ValueWrapper
    3. FileName
+   4. Separator
 3. Drag a *JavaScript* action into the script
 4. Add the Javascript below into the JavaScript code property
 ```javascript
-/* Stadium Script v1.1 https://github.com/stadium-software/utils-list-to-csv-download */
-const download = (data, flnm) => {
-    const blob = new Blob([data], { type: 'text/csv' });
+/* Stadium Script v1.2 https://github.com/stadium-software/utils-list-to-csv-download */
+let items = ~.Parameters.Input.List;
+let fileName = ~.Parameters.Input.FileName || 'download.csv';
+let wrap = ~.Parameters.Input.ValueWrapper || "";
+let separator = ~.Parameters.Input.Separator || ",";
+
+const download = (data) => {
+    const blob = new Blob([data], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = flnm;
+    a.download = fileName;
     a.click();
 };
-const csvmaker = (data, qt) => {
+const csvmaker = () => {
     let ret;
-    if (data.length > 0 && typeof data[0] !== "object") {
-        ret = Object.values(data).join(',');
-    } else if (data.length > 0) {
-        let rows = [], headers = [];
-        for (let i = 0; i < data.length; i++) {
-            headers = headers.concat(Object.keys(data[i]));
+    if (items.length > 0 && typeof items[0] !== "object") {
+        ret = Object.values(items).join(",");
+    } else if (items.length > 0) {
+        let rows = [],
+            headers = [];
+        for (let i = 0; i < items.length; i++) {
+            headers = headers.concat(Object.keys(items[i]));
         }
         headers = Array.from(new Set(headers));
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             let ob = headers.reduce((acc, curr) => ((acc[curr] = ""), acc), {});
-            let obj = Object.assign(ob, data[i]);
+            let obj = Object.assign(ob, items[i]);
             let values = Object.values(obj);
-            if (qt) {
-                rows.push('"' + values.join('","') + '"');
-            } else { 
-                rows.push(values.join(','));
-            }
+            rows.push(wrap + values.join(wrap + separator + wrap) + wrap);
         }
         headers = Array.from(new Set(headers));
-        ret = [headers.join(','), rows.join('\n')].join('\n');
+        ret = [wrap + headers.join(wrap + separator + wrap) + wrap, rows.join("\n")].join("\n");
     }
     return ret;
 };
-const get = async (data, wrapper, fileNm) => {
-    const csvdata = csvmaker(data, wrapper);
-    download(csvdata, fileNm);
+const get = async () => {
+    const csvdata = csvmaker();
+    download(csvdata, fileName);
 };
-const items = ~.Parameters.Input.List;
-const fileName = ~.Parameters.Input.FileName || 'download.csv';
-const wrap = ~.Parameters.Input.AddDoubleQuotes || false;
-get(items, wrap, fileName);
+get();
 ```
 
 ## Event Handler
 1. Drag the "ListToCSVDownload" script into an event handler or script
 2. Provide values for the script input parameters
    1. List: Assign a *List* or a JavaScript array (e.g. Stadium List, database query results, JSON, etc.)
-   2. AddDoubleQuotes (optional): Add true to wrap values in double quotes (default is false)
+   2. ValueWrapper (optional): If you want to wrap the values, provide a wrapping character (e.g. a quote ' or a double quote ")
    3. FileName (optional): Default filename is 'download.csv'
+   4. Separator (optional): Default separator is a comma
 
 **Example data**
 ```json
