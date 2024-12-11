@@ -20,7 +20,7 @@ Please be aware that retreiving large amounts of data from a database or API can
    3. FileName
    4. Separator
 3. Drag a *JavaScript* action into the script
-4. Add the Javascript below into the JavaScript code property
+4. Add the Javascript below unchanged into the JavaScript code property
 ```javascript
 /* Stadium Script v1.2 https://github.com/stadium-software/utils-list-to-csv-download */
 let items = ~.Parameters.Input.List;
